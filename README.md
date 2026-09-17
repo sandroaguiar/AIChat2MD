@@ -184,3 +184,66 @@ Aqui estão os detalhes específicos do que foi implementado e otimizado no cód
           
         
 - **Sanitização Avançada de Links:** Melhorias na limpeza automática de URLs longas, remoção de tokens sensíveis da AWS e padronização de links de referência para manter o Markdown limpo e organizado.
+
+
+  
+
+## [3.1.22] - Estabilização Atual - 2026-09-13
+
+- **Botão Flutuante Otimizado:** Restauração do texto clássico "Exportar Chat" (removendo o número da versão do corpo do botão para manter a interface mais limpa).
+    
+      
+    
+- **Posicionamento Blindado:** Ajuste de layout e garantia de `z-index` (`bottom: 20px`, `right: 180px`, `z-index: 2147483647`) para flutuar perfeitamente sem sobrepor os controles nativos de envio de mensagem.
+    
+      
+    
+- **Cores Contextuais:** Manutenção da aplicação automática das cores oficiais de cada plataforma (Verde para ChatGPT, Salmão para Claude e Ciano para Perplexity).
+    
+      
+    
+
+## [3.1.12 a 3.1.21] - Refinamentos e Sanitização - 2026-09-13
+
+- **Sanitização Inteligente de Links:** Implementação de rotinas para encurtar URLs longas, tokens de sessão ou links da AWS S3, evitando poluição visual no Markdown.
+    
+      
+    
+- **Aprimoramento de LaTeX:** Conversão consistente de blocos matemáticos (`\[ ... \]` para `$$ ... $$` e `\( ... \)` para `$ ... $`).
+    
+      
+    
+- **Remoção de Resíduos:** Limpeza automatizada de strings indesejadas (como avisos de dispositivos não suportados e caracteres de controle invisíveis).
+    
+      
+    
+
+## [3.1.11] - Ajustes de UI - 2026-09-13
+
+- **Testes de Compactação:** Avaliação de rótulos curtos e ícones isolados no botão flutuante, servindo de base para o refinamento ergonômico definitivo adotado na versão atual.
+    
+      
+    
+
+## [3.1.10] - Identidade Visual - 2026-09-13
+
+- **Cores Dinâmicas por Plataforma:** Introdução da função `getPlatformThemeColor()` para injetar dinamicamente as cores oficiais da UI (ChatGPT `#10a37f`, Claude `#e07a5f` e Perplexity `#00bcd4`).
+    
+      
+    
+- **Padronização Inicial:** Definição do rótulo inicial do botão flutuante como "Exportar Chat (v3.1.10)".
+    
+      
+    
+
+## [3.1.07] - Base Estrutural - 2026-09-13
+
+- **Captura Assíncrona Robusta:** Estabelecimento da arquitetura inicial para as principais plataformas de IA.
+    
+      
+    
+- **Adaptadores Nativos:** Implementação de rotinas de extração via rotas internas (`/backend-api/conversation/` no ChatGPT, `/api/organizations/` no Claude e `/rest/thread/` no Perplexity).
+    
+      
+    
+- **Limpeza Básica:** Inclusão inicial de tratamento de blocos e remoção de metadados corrompidos.
