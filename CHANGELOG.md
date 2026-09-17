@@ -252,7 +252,7 @@ Aqui estão os detalhes específicos do que foi implementado e otimizado no cód
 
 
 
-## [3.0.20] - Versão Estável de Referência - 2026-07-22
+## [3.0.20] - Versão Estável de Referência - 2026-09-11
 
 - **Timestamps Dinâmicos por Mensagem:** Implementação da inserção e formatação automática da data e hora exata (`YYYY-MM-DD HH:MM`) ao lado de cada remetente, utilizando os metadados nativos de criação obtidos via API.
     
