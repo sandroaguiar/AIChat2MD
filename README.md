@@ -1,4 +1,54 @@
-# Changelog - Universal AI Chat Exporter
+# 📋 Changelog - Universal AI Chat Exporter
+
+
+## [3.7.4] - 2026-09-17
+
+### 🛠️ Correções e Ajustes (Grok)
+
+- **Correção no Parser DOM do Grok:** Ajustado o tratamento de nós dentro de blocos de código (`pre` e `code`) para evitar que títulos ou rótulos de interface fossem convertidos incorretamente em títulos Markdown (`#`).
+    
+      
+    
+- **Limpeza de Resíduos Visuais:** Implementada remoção automática de textos duplicados ou lixos de interface injetados pelo DOM (como botões de cópia e rótulos de linguagem flutuantes).
+    
+      
+    
+
+## [3.7.3] - 2026-09-17
+
+### 🚀 Novidades e Mudanças Estruturais
+
+- **Novo Adaptador DOM para o Grok:** Substituição completa da rota de API baseada em requisições de backend do X.com por um extrator direto via DOM (`[x.com/i/grok](https://x.com/i/grok)` e `grok.com`), eliminando erros de requisição (`404` e respostas vazias).
+    
+      
+    
+- **Política de Congelamento de Módulos:** Estabelecida a diretriz de blindagem e congelamento total dos adaptadores já estáveis (ChatGPT, Claude, Perplexity e Lumo), garantindo que atualizações em uma plataforma não afetem as demais.
+    
+      
+    
+
+## [3.7.2] - 2026-09-17
+
+### 🔍 Correções Gerais e Estabilidade
+
+- Ajustes de compatibilidade em rotinas de mapeamento de nós e tratamento de caracteres especiais.
+    
+      
+    
+- Refinamento na limpeza de textos gerados por IA para preservar blocos de código matemáticos e formatações em LaTeX (`$$` e `$`).
+    
+      
+    
+
+## [3.7.0 / 3.7.1] - 2026-09-17
+
+### ⚙️ Refatoração de Módulos
+
+- Tentativa de unificação estrutural de adaptadores de rede (com posterior revisão de escopo para adotar abordagens isoladas por plataforma).
+    
+      
+    
+- Correção de regressões no adaptador do Claude, restaurando integralmente a estabilidade operacional da versão `3.6.3`.
 
 ## [v3.6.3] - 2026-09-15
 
