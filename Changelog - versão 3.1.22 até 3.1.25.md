@@ -4,7 +4,7 @@ Aqui está o **Change Log** detalhado cobrindo a evolução do script da versão
   
 ## 📜 Changelog: Universal AI Chat Exporter (v3.1.22 a v3.1.25)
 
-### 🚀 v3.1.25 _(Versão Atual)_
+### 🚀 v3.1.25
 
 - **Correção de Metadados no Painel:** O campo `@name` do Tampermonkey foi simplificado para evitar caracteres extras/versões longas no cabeçalho, garantindo a exibição limpa e correta no painel de controle do gerenciador.
     
