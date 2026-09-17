@@ -1,5 +1,9 @@
 # 📋 Changelog - Universal AI Chat Exporter
 
+Todas as alterações notáveis neste projeto serão documentadas neste arquivo.
+  
+O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/), e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
+
 
 ## [3.7.4] - 2026-09-17
 
@@ -337,3 +341,208 @@ Aqui estão os detalhes específicos do que foi implementado e otimizado no cód
 ## [v2.5.0] - Migração para API Direta - 2026-07-22
 
 - **Nova Arquitetura de Captura:** Substituição da raspagem de DOM pela integração direta com a API interna do ChatGPT (`/backend-api/conversation/`), garantindo a captura do histórico completo de conversas longas sem perdas por rolagem da página.
+
+
+### Adicionado
+
+- Suporte nativo a temas personalizados (Dark/Light Mode e alto contraste).
+      
+    
+- Novo sistema de exportação de dados nos formatos CSV e JSON.
+    
+      
+    
+
+### Alterado
+
+- Otimização do tempo de carregamento do painel principal em 40%.
+    
+      
+    
+- Atualização do SDK base para suporte a versões mais recentes do runtime.
+    
+      
+    
+
+### Corrigido
+
+- Falha ao salvar configurações de preferência do usuário em sessões concorrentes.
+    
+      
+    
+
+## [2.4.0] - 2026-05-20
+
+### Adicionado
+
+- Integração com webhooks para notificações em tempo real.
+    
+      
+    
+- Filtros avançados na busca da listagem principal.
+    
+      
+    
+
+### Alterado
+
+- Reformulação da interface de navegação lateral para melhorar a usabilidade.
+    
+      
+    
+
+### Corrigido
+
+- Erro de formatação em valores de moeda ao alternar regiões.
+    
+      
+    
+
+## [2.3.0] - 2026-02-10
+
+### Adicionado
+
+- Suporte a autenticação em dois fatores (2FA) via aplicativo autenticador.
+    
+      
+    
+- Logs de auditoria para ações executadas por administradores.
+    
+      
+    
+
+### Depreciado
+
+- Suporte ao método antigo de autenticação via SMS (descontinuação na v3.0).
+    
+      
+    
+
+## [2.2.0] - 2025-11-05
+
+### Adicionado
+
+- Gerenciamento de permissões granulares baseadas em funções (RBAC).
+    
+      
+    
+- Suporte ao idioma Espanhol na interface.
+    
+      
+    
+
+### Corrigido
+
+- Vazamento de memória durante o processamento de grandes arquivos em segundo plano.
+    
+      
+    
+
+## [2.1.0] - 2025-07-18
+
+### Adicionado
+
+- Nova API REST para integração com sistemas externos.
+    
+      
+    
+- Documentação interativa via Swagger/OpenAPI.
+    
+      
+    
+
+### Alterado
+
+- Limite de upload de arquivos aumentado de 10 MB para 50 MB.
+    
+      
+    
+
+## [2.0.0] - 2025-03-01
+
+### Adicionado
+
+- Reformulação completa da arquitetura do sistema para microsserviços.
+    
+      
+    
+- Painel de analytics atualizado em tempo real.
+    
+      
+    
+
+### Alterado (**Mudanças Quebrantes / Breaking Changes**)
+
+- Reestruturação dos endpoints da API (v1 descontinuada).
+    
+      
+    
+- Novo esquema de banco de dados (migração automática necessária).
+    
+      
+    
+
+### Removido
+
+- Suporte a navegadores antigos (Internet Explorer 11).
+    
+      
+    
+
+## [1.2.0] - 2024-10-12
+
+### Adicionado
+
+- Sistema de notificações por e-mail personalizável.
+    
+      
+    
+- Atalhos de teclado para navegação rápida.
+    
+      
+    
+
+### Corrigido
+
+- Erro ao exportar relatórios em formato PDF com caracteres especiais.
+    
+      
+    
+
+## [1.1.0] - 2024-06-30
+
+### Adicionado
+
+- Suporte inicial a internacionalização (Inglês e Português).
+    
+      
+    
+- Mecanismo de cache para consultas frequentes.
+    
+      
+    
+
+### Alterado
+
+- Melhorias no layout de telas menores (responsividade mobile).
+    
+      
+    
+
+## [1.0.0] - 2024-01-15
+
+### Adicionado
+
+- Lançamento oficial da versão estável do produto.
+    
+      
+    
+- Módulo principal de gerenciamento de usuários e autenticação.
+    
+      
+    
+- Painel de controle básico com métricas principais.
+    
+      
+    
+- Suporte inicial a banco de dados relacional.
