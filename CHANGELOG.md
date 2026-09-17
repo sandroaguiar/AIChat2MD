@@ -247,3 +247,42 @@ Aqui estão os detalhes específicos do que foi implementado e otimizado no cód
       
     
 - **Limpeza Básica:** Inclusão inicial de tratamento de blocos e remoção de metadados corrompidos.
+
+
+
+
+
+## [3.0.20] - Versão Estável de Referência - 2026-07-22
+
+- **Timestamps Dinâmicos por Mensagem:** Implementação da inserção e formatação automática da data e hora exata (`YYYY-MM-DD HH:MM`) ao lado de cada remetente, utilizando os metadados nativos de criação obtidos via API.
+    
+      
+    
+- **Tratamento Avançado de Anexos:** Criação de rotina dedicada para varrer e capturar anexos, imagens e arquivos enviados nas interações (ChatGPT e Claude), convertendo ponteiros em links limpos compatíveis com o Obsidian (`[[NomeDoArquivo]]`).
+    
+      
+    
+- **Extração Direta via API:** Adoção de requisições assíncronas diretas para os endpoints de histórico (`/backend-api/conversation/{id}` e `/api/organizations/{orgId}/chat_conversations/{chatId}`), eliminando travamentos causados pelo parsing de DOM em conversas longas.
+    
+      
+    
+- **Interface Flutuante Adaptativa (UI/UX):** Botão inteligente que detecta a plataforma ativa e ajusta a cor da identidade visual (verde corporativo para ChatGPT e laranja/terracota para Claude).
+    
+      
+    
+- **Prevenção de Erros de Download:** O botão de exportação agora desativa temporariamente o clique e exibe indicador de progresso (`⏳ Baixando...`) para evitar arquivos duplicados ou vazios.
+    
+      
+    
+- **Comando Rápido:** Suporte integrado ao menu de contexto do gerenciador de scripts via atalho do Tampermonkey.
+    
+      
+    
+
+## [Em Desenvolvimento / Marcos Recentes]
+
+- **Adaptação Inicial do Perplexity:** Estruturação da extração via endpoint direto `/rest/thread/{uuid}` com paginação (`_threadQuery`) para ganho de performance em threads extensas.
+    
+      
+    
+- **Sanitização e Nomenclaturas:** Mapeamento de blocos de referências e URLs da AWS, com foco em regras de truncagem inteligente de títulos (limite de até 20 caracteres), higienização de caracteres especiais e padronização do sufixo temporal completo no salvamento (`Título_YYYY-MM-DD_HH-MM-SS.md`).
