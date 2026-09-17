@@ -144,3 +144,43 @@ Aqui estão os detalhes específicos do que foi implementado e otimizado no cód
     
       
     - Inclusão de um cabeçalho padronizado em cada arquivo gerado contendo o título da conversa, a data exata da exportação, o link direto para a fonte e a versão exata do script utilizada, garantindo total organização no seu fluxo de PKM (_Personal Knowledge Management_).
+ 
+
+
+
+## [3.1.25] - 2026-09-14
+
+- **Correção de Metadados no Painel:** O campo `@name` do Tampermonkey foi simplificado para evitar caracteres extras/versões longas no cabeçalho, garantindo a exibição limpa e correta no painel de controle do gerenciador.
+    
+      
+    
+- **Estabilidade Geral:** Consolidação final de todas as correções de formatação e exportação para ChatGPT, Claude e Perplexity.
+    
+      
+    
+
+## [3.1.24] - 2026-09-14
+
+- **Adição de Metadados no Arquivo Exportado:** Implementação da linha de créditos no topo de cada arquivo `.md` gerado, exibindo explicitamente o nome do exportador e a versão exata utilizada (ex: `| **Exportador:** Universal AI Chat Exporter 3.1.24`).
+    
+      
+    
+
+## [3.1.23] - 2026-09-14
+
+- **Interface Dinâmica por Plataforma:** Aprimoramento da cor e do comportamento do botão flutuante de exportação para se adaptar visualmente de forma automática à identidade visual da IA em uso:
+    
+      
+    - Verde padrão para o ChatGPT.
+        
+          
+        
+    - Cor salmão/terracota para o Claude.
+        
+          
+        
+    - Tom ciano para o Perplexity.
+        
+          
+        
+- **Sanitização Avançada de Links:** Melhorias na limpeza automática de URLs longas, remoção de tokens sensíveis da AWS e padronização de links de referência para manter o Markdown limpo e organizado.
