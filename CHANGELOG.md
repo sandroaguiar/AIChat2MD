@@ -286,3 +286,54 @@ Aqui estão os detalhes específicos do que foi implementado e otimizado no cód
       
     
 - **Sanitização e Nomenclaturas:** Mapeamento de blocos de referências e URLs da AWS, com foco em regras de truncagem inteligente de títulos (limite de até 20 caracteres), higienização de caracteres especiais e padronização do sufixo temporal completo no salvamento (`Título_YYYY-MM-DD_HH-MM-SS.md`).
+
+
+
+
+
+## [v2.5.29] - Refinamentos de Widgets e LaTeX - 2026-09-10
+
+- **Parser de Widgets da OpenAI (`genui` / `math_block_widget`):** Extração direta do conteúdo bruto da chave `"content"` dos widgets de equação da API, com remoção completa de resíduos do tipo `NgenuiÖ{...}` e chaves de fechamento soltas (`}`).
+    
+      
+    
+- **Compatibilidade com LaTeX / Obsidian:** Conversão otimizada dos delimitadores nativos do ChatGPT (`\\[ ... \\]` $\rightarrow$ `$$ ... $$` e `\\( ... \\)` $\rightarrow$ `$ ... $`) e correção automática de barras invertidas duplicadas (`\\frac`, `\\left`, `\\alpha` $\rightarrow$ `\frac`, `\left`, `\alpha`).
+    
+      
+    
+- **Limpeza de Artefatos & Unicode:** Supressão de caracteres invisíveis da faixa privada da OpenAI (`\uE000`–`\uF8FF`), eliminação de glifos e símbolos de controle indesejados (``, ``, `N`, `Ô`), além da remoção de tags de sistema (`entity[...]`) e marcadores sintéticos vazios (`$1$`).
+    
+      
+    
+
+## [v2.5.16] - Parser Inteligente de Entidades - 2026-09-03
+
+- **Isolamento de Metadados:** Tratamento de conceitos da OpenAI (`scientific_concept`, `search_term`), garantindo que links de conceitos sejam exportados como texto limpo enquanto as fórmulas matemáticas permanecem intactas em LaTeX.
+    
+      
+    
+
+## [v2.5.12] - Sanitização de Caracteres - 2026-09-03
+
+- **Limpeza de Caracteres Especiais:** Implementação da limpeza automática de caracteres invisíveis de controle (Unicode) que causavam corrupção de código e quebras de sintaxe no Obsidian.
+    
+      
+    
+
+## [v2.5.10] - Suporte a LaTeX - 2026-09-03
+
+- **Tratamento de Expressões Matemáticas:** Padronização e conversão de blocos matemáticos (`genui`, `math_block_widget`, `\[...\]` e `\(...\)`) para a sintaxe nativa do Markdown/Obsidian ($inline$ e blocos de equação).
+    
+      
+    
+
+## [v2.5.5] - Suporte a Mídia - 2026-09-03
+
+- **Anexos e Arquivos:** Implementação do mapeamento de arquivos (`file_asset_pointer`) e marcadores de imagens (`image_asset_pointer`), oferecendo a opção de incluir ou omitir referências visuais na exportação.
+    
+      
+    
+
+## [v2.5.0] - Migração para API Direta - 2026-07-22
+
+- **Nova Arquitetura de Captura:** Substituição da raspagem de DOM pela integração direta com a API interna do ChatGPT (`/backend-api/conversation/`), garantindo a captura do histórico completo de conversas longas sem perdas por rolagem da página.
