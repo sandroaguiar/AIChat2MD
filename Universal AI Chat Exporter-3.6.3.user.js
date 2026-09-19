@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Universal AI Chat Exporter
-// @namespace    https://github.com/sandroaguiar/exportfullchat2md-v3.6.03
-// @version      3.6.03
+// @namespace    https://github.com/sandroaguiar/exportfullchat2md-v3.6.3
+// @version      3.6.3
 // @description  Exporta conversas do ChatGPT, Claude, Perplexity (API) e Lumo (DOM com filtro refinado de elementos de interface).
 // @author       Sandro Aguiar & Collaborator
 // @match        https://chatgpt.com/*
@@ -19,7 +19,7 @@
 (function() {
     'use strict';
 
-    var SCRIPT_NAME_VERSION = 'Universal AI Chat Exporter 3.6.03';
+    var SCRIPT_NAME_VERSION = 'Universal AI Chat Exporter 3.6.3';
 
     if (typeof GM_registerMenuCommand !== 'undefined') {
         GM_registerMenuCommand("📥 Exportar para Markdown", startExportProcess);
