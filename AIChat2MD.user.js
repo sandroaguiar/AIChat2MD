@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AIChat2MD
 // @namespace    https://github.com/sandroaguiar/AIChat2MD
-// @version      3.8.28
+// @version      3.8.30
 // @description  Tampermonkey userscript that exports AI chats (ChatGPT, Claude, Gemini, Perplexity, Grok, Lumo) to Markdown for Obsidian: full history via API where available, attachment links, and per-message timestamps where the platform provides them.
 // @description:pt-BR  Userscript do Tampermonkey que exporta conversas de IA (ChatGPT, Claude, Gemini, Perplexity, Grok, Lumo) para Markdown, para uso no Obsidian: histórico completo via API quando disponível, links de anexos e hora por mensagem quando a plataforma fornece.
 // @author       Sandro Aguiar & Collaborator
@@ -25,7 +25,7 @@
 (function() {
     'use strict';
 
-    var SCRIPT_NAME_VERSION = 'AI Chat to MD 3.8.28';
+    var SCRIPT_NAME_VERSION = 'AI Chat to MD 3.8.30';
 
     if (typeof GM_registerMenuCommand !== 'undefined') {
         GM_registerMenuCommand("📥 Exportar para Markdown", startExportProcess);
@@ -208,26 +208,74 @@
     // ==========================================
     // MÓDULO CLAUDE (Congelado/Estável)
     // ==========================================
+    // 3.8.29: linha de anexo do Claude. Imagens -> ![[nome]]; demais arquivos -> 📎 **[[nome]]**; texto colado (sem nome) -> descrição.
+    function claudeAttachmentLine(name, kind, sizeBytes) {
+        name = (name || '').replace(/\s+/g, ' ').trim();
+        if (!name) {
+            var kb = sizeBytes ? ' *(' + Math.max(1, Math.round(sizeBytes / 1024)) + ' KB)*' : '';
+            return '📎 **Texto colado**' + kb;
+        }
+        var isImage = (kind === 'image') || /\.(png|jpe?g|gif|webp|bmp|svg)$/i.test(name);
+        return isImage ? '![[' + name + ']]' : '📎 **[[' + name + ']]**';
+    }
+
     function formatClaudeMessage(msg, includeImages) {
         var isUser = (msg.sender === 'human');
-        var contentSegments = [];
-        if (includeImages && msg.attachments) {
-            msg.attachments.forEach(function(att) {
-                contentSegments.push('📎 **Anexo:** [[' + (att.file_name || 'Arquivo') + ']]');
-            });
+
+        // Arquivos enviados (msg.files: imagens e arquivos) e anexos de texto (msg.attachments), sem repetir nomes
+        var attachLines = [];
+        if (includeImages) {
+            var seen = {};
+            if (Array.isArray(msg.files)) {
+                msg.files.forEach(function(f) {
+                    if (!f || f.success === false) return;
+                    var line = claudeAttachmentLine(f.file_name, f.file_kind, f.size_bytes);
+                    if (!seen[line]) { seen[line] = true; attachLines.push(line); }
+                });
+            }
+            if (Array.isArray(msg.attachments)) {
+                msg.attachments.forEach(function(att) {
+                    if (!att) return;
+                    var line = claudeAttachmentLine(att.file_name, '', att.file_size);
+                    if (!seen[line]) { seen[line] = true; attachLines.push(line); }
+                });
+            }
         }
+
+        // 3.8.30: com o formato completo da conversa, a resposta vem em blocos. Texto entra como antes; os arquivos que o Claude
+        // apresentou ao usuário (ferramenta present_files, itens "local_resource") viram links, na posição em que foram apresentados.
+        // Blocos "thinking" e chamadas de ferramentas (bash, memória etc.) não entram no arquivo.
+        var parts = [];
         if (msg.content && Array.isArray(msg.content)) {
             msg.content.forEach(function(c) {
-                if (c.type === 'text') contentSegments.push(c.text);
+                if (!c) return;
+                if (c.type === 'text') {
+                    var t = cleanRawText(c.text || '');
+                    if (t) parts.push(t);
+                } else if (c.type === 'tool_result' && c.name === 'present_files' && !c.is_error && Array.isArray(c.content)) {
+                    var fileLines = [];
+                    c.content.forEach(function(r) {
+                        if (r && r.type === 'local_resource' && r.file_path) {
+                            var fileName = String(r.file_path).split('/').pop();
+                            var fl = claudeAttachmentLine(fileName, '', 0);
+                            if (fileLines.indexOf(fl) === -1) fileLines.push(fl);
+                        }
+                    });
+                    if (fileLines.length > 0) parts.push(fileLines.join('\n'));
+                }
             });
         } else if (typeof msg.text === 'string') {
-            contentSegments.push(msg.text);
+            var t2 = cleanRawText(msg.text);
+            if (t2) parts.push(t2);
         }
+        var body = parts.join('\n\n');
+        var content = attachLines.join('\n') + (attachLines.length && body ? '\n\n' : '') + body;
+
         return {
             sender: isUser ? '👤 Você' : '🤖 Claude',
             timestamp: formatMessageTimestamp(msg.created_at),
             isUser: isUser,
-            content: cleanRawText(contentSegments.join('\n\n'))
+            content: content
         };
     }
 
@@ -244,8 +292,15 @@
             if (!orgsRes || orgsRes.length === 0) throw new Error('Organização do Claude não encontrada.');
             var orgId = orgsRes[0].uuid;
 
-            var chatRes = await fetch('/api/organizations/' + orgId + '/chat_conversations/' + match[1] + '?tree=true');
-            var data = await chatRes.json();
+            var baseUrl = '/api/organizations/' + orgId + '/chat_conversations/' + match[1];
+            var urlUsada = baseUrl + '?tree=true&rendering_mode=messages&render_all_tools=true';
+            var chatRes = await fetch(urlUsada);
+            var data = chatRes.ok ? await chatRes.json() : null;
+            if (!data || !(data.chat_messages || data.messages)) {
+                urlUsada = baseUrl + '?tree=true';
+                chatRes = await fetch(urlUsada);
+                data = await chatRes.json();
+            }
 
             var uuidRe = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/gi;
             var uuidMap = {};
@@ -285,7 +340,7 @@
             delete copy.messages;
 
             // Assinaturas: tipos de bloco de conteúdo, ferramentas usadas e listas não vazias no nível da mensagem
-            var census = { chavesDeMensagem: {}, blocos: {}, listasNaMensagem: {} };
+            var census = { chavesDeMensagem: {}, blocos: {}, listasNaMensagem: {}, listasPorRemetente: {} };
             var selected = [];
             var selectedIdx = {};
             var sigSeen = {};
@@ -296,6 +351,8 @@
                     census.chavesDeMensagem[k] = (census.chavesDeMensagem[k] || 0) + 1;
                     if (k !== 'content' && Array.isArray(m[k]) && m[k].length > 0) {
                         census.listasNaMensagem[k] = (census.listasNaMensagem[k] || 0) + 1;
+                        var rk = k + ' / ' + (m.sender || m.role || '?');
+                        census.listasPorRemetente[rk] = (census.listasPorRemetente[rk] || 0) + 1;
                         sigs.push('msg.' + k);
                     }
                 });
@@ -321,6 +378,7 @@
 
             var out = {
                 aviso: 'Textos cortados em 60 caracteres (links em 100), listas em 12 itens, identificadores trocados por marcas. Revise antes de compartilhar.',
+                parametrosDaRequisicao: urlUsada.replace(baseUrl, ''),
                 totalMensagens: allMsgs.length,
                 censo: census,
                 conversa: redact(copy, 0),
@@ -349,8 +407,13 @@
         if (!orgsRes || orgsRes.length === 0) throw new Error('Organização do Claude não encontrada.');
         var orgId = orgsRes[0].uuid;
 
-        var chatRes = await fetch('/api/organizations/' + orgId + '/chat_conversations/' + chatId + '?tree=true');
-        var data = await chatRes.json();
+        var chatBase = '/api/organizations/' + orgId + '/chat_conversations/' + chatId;
+        var chatRes = await fetch(chatBase + '?tree=true&rendering_mode=messages&render_all_tools=true');
+        var data = chatRes.ok ? await chatRes.json() : null;
+        if (!data || !(data.chat_messages || data.messages)) {
+            chatRes = await fetch(chatBase + '?tree=true');
+            data = await chatRes.json();
+        }
         
         var rawMessages = data.chat_messages || data.messages || [];
         var orderedMessages = [];
