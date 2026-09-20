@@ -564,21 +564,15 @@ Aqui estão os detalhes específicos do que foi implementado e otimizado no cód
 
 - Reformulação completa da arquitetura do sistema para microsserviços.
     
-      
-    
 - Painel de analytics atualizado em tempo real.
-    
-      
+     
     
 
 ### Alterado (**Mudanças Quebrantes / Breaking Changes**)
 
 - Reestruturação dos endpoints da API (v1 descontinuada).
-    
-      
-    
+   
 - Novo esquema de banco de dados (migração automática necessária).
-    
       
     
 
@@ -592,63 +586,7 @@ Aqui estão os detalhes específicos do que foi implementado e otimizado no cód
 
 # Histórico de versões — série 1.x.x
 
+As versões 1.x foram protótipos!
 
 
 
-## [1.2.0] - 2024-10-12
-
-### Adicionado
-
-- Sistema de notificações por e-mail personalizável.
-    
-      
-    
-- Atalhos de teclado para navegação rápida.
-    
-      
-    
-
-### Corrigido
-
-- Erro ao exportar relatórios em formato PDF com caracteres especiais.
-    
-      
-    
-
-## [1.1.0] - 2024-06-30
-
-### Adicionado
-
-- Suporte inicial a internacionalização (Inglês e Português).
-    
-      
-    
-- Mecanismo de cache para consultas frequentes.
-    
-      
-    
-
-### Alterado
-
-- Melhorias no layout de telas menores (responsividade mobile).
-    
-      
-    
-
-## [1.0.0] - 2024-01-15
-
-### Adicionado
-
-- Lançamento oficial da versão estável do produto.
-    
-      
-    
-- Módulo principal de gerenciamento de usuários e autenticação.
-    
-      
-    
-- Painel de controle básico com métricas principais.
-    
-      
-    
-- Suporte inicial a banco de dados relacional.
