@@ -1,4 +1,4 @@
-# AI Chat to MD
+# AI Chat to MD (AIChat2MD)
 
 Userscript para **Tampermonkey** que exporta conversas de plataformas de IA para arquivos **Markdown (`.md`)**, pensado para uso em cofres de gestão de conhecimento como o **Obsidian** (também funciona com Logseq, Bear, NotePlan e Drafts).
 
