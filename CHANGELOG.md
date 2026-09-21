@@ -137,9 +137,11 @@ Entradas da **3.8.14** à **3.8.34**, da mais recente para a mais antiga.
 
 ## Pendências conhecidas
 
+- Claude: referências com links (pesquisa na web e citações). O campo `citations` dos blocos de texto existe, mas veio vazio nas conversas testadas; falta uma conversa curta com pesquisa na web para ver a estrutura.
+- Claude: os arquivos apresentados pelo Claude saem só como link; o arquivo precisa ser baixado do Claude e colocado no cofre.
+- Gemini: arquivos gerados (por exemplo `.xlsx` e `.js`) saem como link, sem download automático. Os endereços de download aparecem no dado do anexo (índice 7).
 - Sanitização de links inoperante: a expressão regular tem `\vert{}` no lugar de `|` e nunca reconhece um link (herdado da 3.7.4).
 - A limpeza de texto apaga as palavras `Copiar` e `Copy code` também quando fazem parte do texto real da conversa.
-- Gemini: anexos e imagens gerados nas respostas ainda não foram mapeados.
 - AI Studio e AI Mode (Google) não têm adaptador.
 
 
