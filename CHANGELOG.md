@@ -10,7 +10,57 @@ O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.
 
 Entradas da **3.8.14** à **3.8.26**, da mais recente para a mais antiga. 
 
-**Regra de compatibilidade da série:** o código de ChatGPT e Claude não foi alterado desde a 3.7.4, o do Perplexity só mudou na 3.8.24 (horário das mensagens), e a posição do botão flutuante (`bottom: 20px; right: 140px`) não mudou.
+**Regra de compatibilidade da série:** o código do ChatGPT não foi alterado desde a 3.7.4; o do Perplexity só mudou na 3.8.24 (horário das mensagens); o do Claude só mudou nas 3.8.29 e 3.8.30 (arquivos, imagens e formato da conversa). A posição do botão flutuante (`bottom: 20px; right: 140px`) não mudou.
+
+## 3.8.34 — Gemini: imagens geradas com a conta correta
+
+- O teste da 3.8.33 mostrou HTTP 403 em todas as variantes do endereço da imagem. A página do Gemini exibe as mesmas imagens com `?authuser=N` no endereço (N é o número da conta, o mesmo de `/u/N/` na URL da página), o que faltava nos pedidos do script.
+- O download agora tenta, em ordem, `=s0`, `=d` e `=s1600` (todos com `?authuser=N`) e, por último, o endereço que a própria página usou para exibir a imagem. Só aceita resposta que seja imagem. Se todas as tentativas falharem, o aviso lista o resultado de cada uma.
+- `@noframes` no cabeçalho: o script deixa de rodar em janelas internas (*iframes*), o que causava o aviso falso "Abra uma conversa salva no Gemini" ao usar os comandos do menu.
+- O comando **🔍 Gemini: testar download de imagens** passa a testar esses mesmos endereços (o teste com Referer e com *fetch* na página foi retirado, porque não ajudou).
+- O navegador abre **caixas de diálogo para salvar** as imagens com os nomes usados nos links do `.md. O erro HTTP 403 anterior foi resolvido pelo acréscimo de `?authuser=N`.
+- No Obsidian, com o `.md` e as imagens no cofre aparecem no corpo da nota, no lugar certo. O cabeçalho mostra `Exportador: AI Chat to MD 3.8.34`, e as mensagens têm hora real.
+- Os blocos de código do Gemini saem como ` ```python ` (com destaque de sintaxe no Obsidian). O código executado ainda fica visível antes do gráfico.
+- Os arquivos gerados que não são imagens (`.xlsx` e `.js`) saem como link `📎 **[[nome]]**`, sem download automático.
+
+## 3.8.33 — Gemini: teste de download de imagens
+
+- Novo comando no menu, só no Gemini: **🔍 Gemini: testar download de imagens**. Testa variações do pedido e salva só os códigos de resposta em um `.json`.
+- Resultado do teste: HTTP 403 em todas as variantes (original, `=s0`, `=d`, `=s1024`, com e sem Referer), e o *fetch* na página foi bloqueado. A comparação com as imagens da própria página revelou o parâmetro `?authuser=N`.
+
+## 3.8.32 — Gemini: download automático das imagens geradas
+
+- As imagens geradas pelo Gemini são baixadas pelo script (via `GM_xmlhttpRequest`) com o mesmo nome usado no link do Markdown, junto do `.md`. Motivo: o Gemini salva as imagens baixadas pelo site com um nome aleatório (`Gemini_Generated_Image_…`), diferente do nome interno da API.
+- `@connect` para `lh3.googleusercontent.com` e `googleusercontent.com`.
+- Respeita a resposta à pergunta sobre anexos: com **Cancelar**, as imagens não são baixadas. Se alguma falhar, o `.md` é salvo e um aviso lista as imagens e o motivo.
+- O dado interno `thought_signature_….pb` deixou de aparecer como link.
+
+## 3.8.31 — Gemini: imagens e arquivos gerados
+
+- No texto das respostas, imagens e arquivos gerados aparecem só como marcadores (`http://googleusercontent.com/image_generation_content/…`, `[http://googleusercontent.com/generated_image/…]`, `[file-tag: code-generated-file-…]`). Os dados do arquivo (nome e tipo) ficam em `block[12]` da resposta. Cada marcador é trocado por `![[nome]]` (imagens) ou `📎 **[[nome]]**` (demais arquivos), na posição em que aparecia; arquivos sem marcador vão ao fim da resposta.
+- Os blocos de código executados pelo Gemini, gravados como ` ```python?code_reference&code_event_index=1 `, passam a sair como ` ```python ` (e ` ```text ` para a saída).
+
+## 3.8.30 — Claude: arquivos apresentados e conversa em formato completo
+
+- A exportação do Claude passa a pedir a conversa com `?tree=true&rendering_mode=messages&render_all_tools=true` (com volta ao formato simples se a API recusar). A resposta vem em blocos: `text`, `thinking`, `tool_use` e `tool_result`.
+- Os arquivos que o Claude apresentou ao usuário (resultado da ferramenta `present_files`, itens `local_resource`) viram `📎 **[[nome]]**` (ou `![[nome]]` para imagens), na posição em que foram apresentados.
+- Raciocínio interno (`thinking`) e chamadas de ferramenta (bash, memória etc.) não entram no arquivo.
+
+## 3.8.29 — Claude: arquivos enviados
+
+- Imagens e arquivos enviados pelo usuário (`files`) saem como `![[nome]]` e `📎 **[[nome]]**`, no início da mensagem. Anexos de texto (`attachments`) passam ao mesmo formato (antes: `📎 **Anexo:** [[nome]]`). Texto colado, sem nome, sai como `📎 **Texto colado** *(N KB)*`, sem o conteúdo.
+- O diagnóstico do Claude passa a pedir o formato completo da conversa e a registrar qual formato foi usado.
+
+## 3.8.28 — Novo nome, links de atualização e diagnóstico do Claude para conversas longas
+
+- O script passa a se chamar **AIChat2MD** (AI Chat to MD), com `@namespace` fixo `https://github.com/sandroaguiar/AIChat2MD`, `@description:pt-BR` e o ícone no repositório `AIChat2MD` (edições do autor).
+- `@downloadURL` e `@updateURL` apontam para `AIChat2MD.user.js` na raiz do repositório (ramificação `main`).
+- O diagnóstico do Claude passa a funcionar em conversas longas: salva um censo dos tipos de conteúdo da conversa inteira e a estrutura de algumas mensagens com blocos, arquivos, anexos ou citações.
+
+## 3.8.27 — Diagnóstico do Claude
+
+- Novo comando no menu, só no claude.ai: **🔍 Claude: salvar diagnóstico**. Baixa um `.json` com a estrutura da conversa (textos cortados, identificadores trocados por marcas).
+- Revelou que a requisição usada até então só trazia o texto achatado de cada mensagem, mais as listas `files` e `attachments`.
 
 ## 3.8.26 — Ícone: endereço pela ramificação `main`
 
