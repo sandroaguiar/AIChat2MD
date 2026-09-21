@@ -8,9 +8,20 @@ O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.
 
 # Histórico de versões — série 3.8.x
 
-Entradas da **3.8.14** à **3.8.24**, da mais recente para a mais antiga. 
+Entradas da **3.8.14** à **3.8.26**, da mais recente para a mais antiga. 
 
 **Regra de compatibilidade da série:** o código de ChatGPT e Claude não foi alterado desde a 3.7.4, o do Perplexity só mudou na 3.8.24 (horário das mensagens), e a posição do botão flutuante (`bottom: 20px; right: 140px`) não mudou.
+
+## 3.8.26 — Ícone: endereço pela ramificação `main`
+
+- O `@icon` passa a apontar para `.../Universal-AI-Chat-Exporter2MD/main/assets/icon-128.png`, sem o código do commit. Se o arquivo for substituído no repositório, o novo ícone aparece sozinho no Tampermonkey.
+- Nenhuma alteração de código além do cabeçalho e da versão.
+
+## 3.8.25 — Ícone próprio
+
+- O `@icon` deixa de usar o favicon do Perplexity e passa a usar um ícone próprio: balão de conversa com o símbolo do Markdown, em magenta `#FB43FB` sobre borda roxo azulado `#5A2BF0`.
+- Arquivos do ícone no repositório: `assets/icon-128.png`, `assets/icon-64.png` e `assets/icon.svg`.
+- Nenhuma alteração de código além do cabeçalho e da versão.
 
 ## 3.8.24 — Perplexity: data da conversa no cabeçalho
 
