@@ -4,7 +4,7 @@ Userscript para **Tampermonkey** que exporta conversas de plataformas de IA para
 
 **AIChat2MD** significa *AI Chat to MD*. O projeto se chamava Universal AI Chat Exporter até a versão 3.8.27.
 
-**Versão atual:** 3.8.34 · **Licença:** MIT · **Autor:** Sandro Aguiar & Collaborator
+**Versão atual:** 3.8.50 · **Licença:** MIT · **Autor:** Sandro Aguiar & Collaborator
 
 ## Plataformas suportadas
 
