@@ -16,7 +16,7 @@ Entradas da **3.8.14** à **3.8.34**, da mais recente para a mais antiga.
 
 # Histórico de versões — 3.8.48 a 3.8.50
 
-Entradas da **3.8.48** à **3.8.50**, da mais recente para a mais antiga. 
+Entradas da **3.8.48** à **3.8.50**, da mais recente para a mais antiga.
 
 **Regra de compatibilidade da série:** nenhuma alteração nas plataformas ChatGPT, Perplexity, Grok, Lumo, AI Studio ou AI Mode nessas versões. A posição do botão flutuante e as cores dos botões existentes não mudaram. Tudo desta série mexeu só no módulo Gemini.
 
@@ -26,6 +26,7 @@ Entradas da **3.8.48** à **3.8.50**, da mais recente para a mais antiga.
 - Causa raiz (confirmada por diagnóstico): diferente da resposta do Gemini — onde blocos de código vêm estruturados à parte, com a linguagem identificada — a mensagem do **usuário** chega da API como uma única string de texto puro, sem nenhuma marcação de código, cerca ou linguagem. O próprio site do Gemini reconhece e destaca como código por heurística visual local, mas essa informação não vai junto na API.
 - Correção aplicada (conserto mínimo, só no texto bruto do usuário no Gemini): caracteres de início de linha que o Markdown leria como bloco (`#`, `>`, `-`/`*`/`+` de lista, `1.` numerada, `---` de linha horizontal, `` ``` `` de cerca de código) são escapados com `\`. O texto sai correto, mas sem a formatação bonita de "bloco de código" — isso fica para a próxima etapa (ver Pendências).
 - **Validado em teste real:** reexportada a mesma conversa do Plutão, confirmado que o título falso não aparece mais.
+- **Decisão (não vira pendência):** cogitou-se, como próxima etapa, reconhecer automaticamente trechos de código dentro da mensagem do usuário e reenvolvê-los em cercas de código. Descartado: o texto do usuário sem cor (em contraste com o bloco colorido do que a IA gera) é uma distinção visual desejada, que mostra a origem real do conteúdo — a detecção heurística removeria isso, arriscaria falsos positivos/negativos, e o problema original (corrupção do Markdown) já está resolvido sem esse custo.
 
 ## 3.8.49 — Diagnóstico do Gemini: limite de turnos aumentado de 30 para 200
 
@@ -38,17 +39,16 @@ Entradas da **3.8.48** à **3.8.50**, da mais recente para a mais antiga.
 
 ## Achados que não são bugs (registrados para referência)
 
-- **Gemini — mensagem do usuário sem estrutura de código:** confirmado por diagnóstico (turno com "Eu inclui Plutão") que a API do Gemini nunca envia marcação de código para o texto que o próprio usuário digita ou cola — é sempre uma string única. Isso não é um bug pontual a corrigir, é uma limitação de dados: qualquer formatação de "bloco de código" para mensagens do usuário vai depender de detecção heurística no texto (ver Pendências), nunca de um campo pronto na API. (Reforça o diagnóstico: a extensão de Firefox "AI Chat Exporter", de terceiros, apresenta exatamente o mesmo defeito na mesma situação.)
+- **Gemini — mensagem do usuário sem estrutura de código:** confirmado por diagnóstico (turno com "Eu inclui Plutão") que a API do Gemini nunca envia marcação de código para o texto que o próprio usuário digita ou cola — é sempre uma string única. Isso não é um bug pontual a corrigir, é uma limitação de dados. Decisão: não implementar detecção heurística para reenvolver esse texto em cercas de código — a diferença visual entre texto do usuário (sem cor) e código da IA (colorido) mostra a origem real do conteúdo, e é considerada um ganho, não uma falha. (Reforça o diagnóstico: a extensão de Firefox "AI Chat Exporter", de terceiros, apresenta exatamente o mesmo defeito na mesma situação.)
 - (herdado da 3.8.41-3.8.47) Claude: mensagem só com `thinking` não aparece no `.md` — decisão deliberada do autor.
 - (herdado) AI Mode / AI Studio: sem hora por mensagem porque a página não fornece esse dado.
 - (herdado) Downloads do Gemini "sumindo" sem aviso: comportamento do navegador, não do script.
 
 ## Pendências conhecidas
 
-1. **Gemini — detecção heurística de código colado pelo usuário:** depois que a 3.8.50 for validada em teste real (conserto mínimo, sem corrupção), tentar reconhecer automaticamente onde um trecho de texto do usuário "parece" código (várias linhas com `import`, `def`, indentação etc.) e envolver esse trecho em cercas ` ``` `, restaurando a formatação de bloco de código perdida pelo escape da 3.8.50.
-2. Gemini: arquivos gerados que não são imagem (`.xlsx`, `.js`) saem só como link, sem download automático. A URL de download já foi localizada no dado do anexo (índice 7).
-3. Claude: referências com links (pesquisa na web e citações) ainda não são exportadas; o campo `citations` veio vazio nos testes feitos até agora.
-4. Fechamento da 4.0.0: atualizar o README e o CHANGELOG oficiais.
+1. Gemini: arquivos gerados que não são imagem (`.xlsx`, `.js`) saem só como link, sem download automático. A URL de download já foi localizada no dado do anexo (índice 7).
+2. Claude: referências com links (pesquisa na web e citações) ainda não são exportadas; o campo `citations` veio vazio nos testes feitos até agora.
+3. Fechamento da 4.0.0: atualizar o README (já feito nesta sessão, falta só postar no GitHub) e o CHANGELOG oficiais.
 
 
 
