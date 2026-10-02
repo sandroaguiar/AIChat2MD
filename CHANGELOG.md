@@ -8,7 +8,6 @@ O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.
 
 # Histórico de versões — série 3.8.x
 
-Entradas da **3.8.14** à **3.8.69**, da mais recente para a mais antiga. 
 
 
 # Histórico de versões — 3.8.51 a 3.8.69
